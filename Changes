@@ -1,0 +1,37 @@
+Revision history for Perl module Test::MockRandom
+
+0.97 Thu Jun  9 07:14:36 EDT 2005
+    - removed pod/podcoverage tests to minimize dependencies
+
+0.96 Tue Jun  7 17:54:17 EDT 2005
+    - updated Build.PL with dependencies
+    - changed Makefile compatibility to traditional
+
+0.95 Tue Mar  8 22:46:51 EST 2005
+    - added pod and pod coverage tests
+
+0.94 Mon Jan 31 21:11:50 EST 2005
+    - changed exports so that nothing is exported by default
+    - API for "use" changed substantially -- see POD for new API
+    - redefine warnings supressed
+
+0.93 Wed Jan  5 14:44:00 EST 2005
+    - added export_srand_to function
+    - cleaned up Todo
+
+0.92 Tue Dec 21 00:21:50 EST 2004
+    - changed API for "use" to facilitate exporting rand to other packages
+      (the common case when used in test scripts)
+    - improved documentation substantially, particularly around "use"
+    - expanded the test suite
+    
+0.91 Thu Dec 16 13:17:46 EST 2004
+    - Added Test::MockObject and Test::MockModule to the "See Also" section
+    - changed oneish to use 2**32 instead of 2**31
+    - added function "export_rand_to"
+
+0.90 Tue Dec 14 17:03:45 EST 2004
+    - first public release
+
+0.01 Tue Dec 14 14:17:56 2004
+	- original version; created by ExtUtils::ModuleMaker::TT

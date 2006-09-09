@@ -23,38 +23,39 @@ SYNOPSIS
   
 DESCRIPTION
     This perhaps ridiculous-seeming module was created to test routines that
-    manipulate random numbers by providing a known output from "rand". Given
-    a list of seeds with "srand", it will return each in turn. After seeded
+    manipulate random numbers by providing a known output from `rand'. Given
+    a list of seeds with `srand', it will return each in turn. After seeded
     random numbers are exhausted, it will always return 0. Seed numbers must
-    be of a form that meets the expected output from "rand" as called with
+    be of a form that meets the expected output from `rand' as called with
     no arguments -- i.e. they must be between 0 (inclusive) and 1
     (exclusive). In order to facilitate generating and testing a nearly-one
-    number, this module exports the function "oneish", which returns a
+    number, this module exports the function `oneish', which returns a
     number just fractionally less than one.
 
-    Depending on how this module is called with "use", it will export "rand"
+    Depending on how this module is called with `use', it will export `rand'
     to a specified package (e.g. a class being tested) effectively
     overriding and intercepting calls in that package to the built-in
-    "rand". It can also override "rand" in the current package or even
-    globally. In all of these cases, it also exports "srand" and "oneish" to
-    the current package in order to control the output of "rand". See
-    "USAGE" for details.
+    `rand'. It can also override `rand' in the current package or even
+    globally. In all of these cases, it also exports `srand' and `oneish' to
+    the current package in order to control the output of `rand'. See USAGE
+    for details.
 
     Alternatively, this module can be used to generate objects, with each
     object maintaining its own distinct seed array.
 
 USAGE
     By default, Test::MockRandom does not export any functions. This still
-    allows object-oriented use by calling "Test::MockRandom->new(@seeds)".
+    allows object-oriented use by calling `Test::MockRandom->new(@seeds)'.
     In order for Test::MockRandom to be more useful, arguments must be
-    provided during the call to "use".
+    provided during the call to `use'.
 
-  "use Test::MockRandom 'Target::Package'"
-    The simplest way to intercept "rand" in another package is to provide
-    the name(s) of the package(s) for interception as arguments in the "use"
-    statement. This will export "rand" to the listed packages and will
-    export "srand" and "oneish" to the current package to control the
-    behavior of "rand". You must "use" Test::MockRandom before you "use" the
+  `use Test::MockRandom 'Target::Package''
+
+    The simplest way to intercept `rand' in another package is to provide
+    the name(s) of the package(s) for interception as arguments in the `use'
+    statement. This will export `rand' to the listed packages and will
+    export `srand' and `oneish' to the current package to control the
+    behavior of `rand'. You must `use' Test::MockRandom before you `use' the
     target package. This is a typical case for testing a module that uses
     random numbers:
 
@@ -67,13 +68,13 @@ USAGE
      srand(0.5)
      is( foo(), 0.5, "is foo() 0.5?") # test gives "ok"
 
-    If multiple package names are specified, "rand" will be exported to all
+    If multiple package names are specified, `rand' will be exported to all
     of them.
 
-    If you wish to export "rand" to the current package, simply provide
-    "__PACKAGE__" as the parameter for "use", or "main" if importing to a
+    If you wish to export `rand' to the current package, simply provide
+    `__PACKAGE__' as the parameter for `use', or `main' if importing to a
     script without a specified package. This can be part of a list provided
-    to "use". All of the following idioms work:
+    to `use'. All of the following idioms work:
 
      use Test::MockRandom qw( main Some::Package ); # Assumes a script
      use Test::MockRandom __PACKAGE__, 'Some::Package';
@@ -83,8 +84,9 @@ USAGE
 
      use Test::MockRandom qw( __PACKAGE__ Some::Package );
 
-  "use Test::MockRandom { %customized }"
-    As an alternative to a package name as an argument to "use",
+  `use Test::MockRandom { %customized }'
+
+    As an alternative to a package name as an argument to `use',
     Test::MockRandom will also accept a hash reference with a custom set of
     instructions for how to export functions:
 
@@ -94,7 +96,7 @@ USAGE
         oneish => __PACKAGE__
      };
 
-    The keys of the hash may be any of "rand", "srand", and "oneish". The
+    The keys of the hash may be any of `rand', `srand', and `oneish'. The
     values of the hash give instructions for where to export the symbol
     corresponding to the key. These are interpreted as follows, depending on
     their type:
@@ -108,28 +110,29 @@ USAGE
     *   Array Reference: a list of strings or hash references which will be
         handled as above
 
-  "Test::MockRandom->export_rand_to( 'Target::Package' => 'rand_alias' )"
-    In order to intercept the built-in "rand" in another package,
-    Test::MockRandom must export its own "rand" function to the target
+  `Test::MockRandom->export_rand_to( 'Target::Package' => 'rand_alias' )'
+
+    In order to intercept the built-in `rand' in another package,
+    Test::MockRandom must export its own `rand' function to the target
     package before the target package is compiled, thus overriding calls to
     the built-in. The simple approach (described above) of providing the
-    target package name in the "use Test::MockRandom" statement accomplishes
-    this because "use" is equivalent to a "require" and "import" within a
-    "BEGIN" block. To explicitly intercept "rand" in another package, you
-    can also call "export_rand_to", but it must be enclosed in a "BEGIN"
+    target package name in the `use Test::MockRandom' statement accomplishes
+    this because `use' is equivalent to a `require' and `import' within a
+    `BEGIN' block. To explicitly intercept `rand' in another package, you
+    can also call `export_rand_to', but it must be enclosed in a `BEGIN'
     block of its own. The explicit form also support function aliasing just
-    as with the custom approach with "use", described above:
+    as with the custom approach with `use', described above:
 
      use Test::MockRandom;
      BEGIN {Test::MockRandom->export_rand_to('AnotherPackage'=>'random')}
      use AnotherPackage;
  
-    This "BEGIN" block must not include a "use" statement for the package to
+    This `BEGIN' block must not include a `use' statement for the package to
     be intercepted, or perl will compile the package to be intercepted
-    before the "export_rand_to" function has a chance to execute and
-    intercept calls to the built-in "rand". This is very important in
-    testing. The "export_rand_to" call must be in a separate "BEGIN" block
-    from a "use" or "use_ok" test, which should be enclosed in a "BEGIN"
+    before the `export_rand_to' function has a chance to execute and
+    intercept calls to the built-in `rand'. This is very important in
+    testing. The `export_rand_to' call must be in a separate `BEGIN' block
+    from a `use' or `use_ok' test, which should be enclosed in a `BEGIN'
     block of its own:
 
      use Test::More tests => 1;
@@ -138,13 +141,14 @@ USAGE
      BEGIN { use_ok( 'AnotherPackage' ); }
 
     Given these cautions, it's probably best to use either the simple or
-    custom approach with "use", which does the right thing in most
+    custom approach with `use', which does the right thing in most
     circumstances. Should additional explicit customization be necessary,
-    Test::MockRandom also provides "export_srand_to" and "export_oneish_to".
+    Test::MockRandom also provides `export_srand_to' and `export_oneish_to'.
 
-  Overriding "rand" globally: "use Test::MockRandom 'CORE::GLOBAL'"
-    This is just like intercepting "rand" in a package, except that you do
-    it globally by overriding the built-in function in "CORE::GLOBAL".
+  Overriding `rand' globally: `use Test::MockRandom 'CORE::GLOBAL''
+
+    This is just like intercepting `rand' in a package, except that you do
+    it globally by overriding the built-in function in `CORE::GLOBAL'.
 
      use Test::MockRandom 'CORE::GLOBAL';
  
@@ -152,10 +156,11 @@ USAGE
 
      BEGIN { Test::MockRandom->export_rand_to('CORE::GLOBAL') }
 
-    You can always access the real, built-in "rand" by calling it explicitly
-    as "CORE::rand".
+    You can always access the real, built-in `rand' by calling it explicitly
+    as `CORE::rand'.
 
-  Intercepting "rand" in a package that also contains a "rand" function
+  Intercepting `rand' in a package that also contains a `rand' function
+
     This is tricky as the order in which the symbol table is manipulated
     will lead to very different results. This can be done safely (maybe) if
     the module uses the same rand syntax/prototype as the system call but
@@ -167,33 +172,36 @@ USAGE
      use SomeRandPackage;
      BEGIN { Test::MockRandom->export_rand_to('SomeRandPackage');
 
-    The first line is necessary to get "srand" and "oneish" exported to the
-    current package. The second line will define a "sub rand" in
-    "SomeRandPackage", overriding the results of the first line. The third
-    line then re-overrides the "rand". You may see warnings about "rand"
+    The first line is necessary to get `srand' and `oneish' exported to the
+    current package. The second line will define a `sub rand' in
+    `SomeRandPackage', overriding the results of the first line. The third
+    line then re-overrides the `rand'. You may see warnings about `rand'
     being redefined.
 
-    Depending on how your "rand" is written and used, there is a good
+    Depending on how your `rand' is written and used, there is a good
     likelihood that this isn't going to do what you're expecting, no matter
-    what. If your package that defines "rand" relies internally upon the
-    system "CORE::GLOBAL::rand" function, then you may be best off
+    what. If your package that defines `rand' relies internally upon the
+    system `CORE::GLOBAL::rand' function, then you may be best off
     overriding that instead.
 
 FUNCTIONS
-  "new"
+  `new'
+
      $obj = new( LIST OF SEEDS );
 
     Returns a new Test::MockRandom object with the specified list of seeds.
 
-  "srand"
+  `srand'
+
      srand( LIST OF SEEDS );
      $obj->srand( LIST OF SEEDS);
 
     If called as a bare function call or package method, sets the seed list
-    for bare/package calls to "rand". If called as an object method, sets
+    for bare/package calls to `rand'. If called as an object method, sets
     the seed list for that object only.
 
-  "rand"
+  `rand'
+
      $rv = rand();
      $rv = $obj->rand();
      $rv = rand(3);
@@ -202,7 +210,7 @@ FUNCTIONS
     package seed list. If called as an object method, returns the next value
     from the object seed list.
 
-    If "rand" is called with a numeric argument, it follows the same
+    If `rand' is called with a numeric argument, it follows the same
     behavior as the built-in function -- it multiplies the argument with the
     next value from the seed array (resulting in a random fractional value
     between 0 and the argument, just like the built-in). If the argument is
@@ -215,21 +223,23 @@ FUNCTIONS
      srand(1/3);
      rand(3);       # does this return 1.0 or .999999999 etc.
 
-  "oneish"
+  `oneish'
+
      srand( oneish() );
      if ( rand() == oneish() ) { print "It's almost one." };
 
     A utility function to return a nearly-one value. Equal to ( 2^32 - 1 ) /
-    2^32. Useful in "srand" and test functions.
+    2^32. Useful in `srand' and test functions.
 
-  "export_rand_to"
+  `export_rand_to'
+
      Test::MockRandom->export_rand_to( 'Some::Class' );
      Test::MockRandom->export_rand_to( 'Some::Class' => 'random' );
 
-    This function exports "rand" into the specified package namespace. It
+    This function exports `rand' into the specified package namespace. It
     must be called as a class function. If a second argument is provided, it
     is taken as the symbol name used in the other package as the alias to
-    "rand":
+    `rand':
 
      use Test::MockRandom;
      BEGIN { Test::MockRandom->export_rand_to( 'Some::Class' => 'random' ); }
@@ -237,21 +247,22 @@ FUNCTIONS
      srand (0.5);
      print Some::Class::random(); # prints 0.5
 
-    It can also be used to explicitly intercept "rand" after
+    It can also be used to explicitly intercept `rand' after
     Test::MockRandom has been loaded. The effect of this function is highly
     dependent on when it is called in the compile cycle and should usually
-    called from within a BEGIN block. See "USAGE" for details.
+    called from within a BEGIN block. See USAGE for details.
 
     Most users will not need this function.
 
-  "export_srand_to"
+  `export_srand_to'
+
      Test::MockRandom->export_srand_to( 'Some::Class' );
      Test::MockRandom->export_srand_to( 'Some::Class' => 'seed' );
 
-    This function exports "srand" into the specified package namespace. It
+    This function exports `srand' into the specified package namespace. It
     must be called as a class function. If a second argument is provided, it
     is taken as the symbol name to use in the other package as the alias for
-    "srand". This function may be useful if another package wraps "srand":
+    `srand'. This function may be useful if another package wraps `srand':
 
      # In Some/Class.pm
      package Some::Class;
@@ -267,19 +278,20 @@ FUNCTIONS
 
     The effect of this function is highly dependent on when it is called in
     the compile cycle and should usually be called from within a BEGIN
-    block. See "USAGE" for details.
+    block. See USAGE for details.
 
     Most users will not need this function.
 
-  "export_oneish_to"
+  `export_oneish_to'
+
      Test::MockRandom->export_oneish_to( 'Some::Class' );
      Test::MockRandom->export_oneish_to( 'Some::Class' => 'nearly_one' );
 
-    This function exports "oneish" into the specified package namespace. It
+    This function exports `oneish' into the specified package namespace. It
     must be called as a class function. If a second argument is provided, it
     is taken as the symbol name to use in the other package as the alias for
-    "oneish". Since "oneish" is usually only used in a test script, this
-    function is likely only necessary to alias "oneish" to some other name
+    `oneish'. Since `oneish' is usually only used in a test script, this
+    function is likely only necessary to alias `oneish' to some other name
     in the current package:
 
      use Test::MockRandom 'Some::Class';
@@ -290,7 +302,7 @@ FUNCTIONS
 
     The effect of this function is highly dependent on when it is called in
     the compile cycle and should usually be called from within a BEGIN
-    block. See "USAGE" for details.
+    block. See USAGE for details.
 
     Most users will not need this function.
 
@@ -316,4 +328,3 @@ COPYRIGHT
 SEE ALSO
     Test::MockObject
     Test::MockModule
-

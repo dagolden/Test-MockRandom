@@ -8,9 +8,9 @@ Module::Build->new
       license         => 'perl',
       requires => {
           perl => 5.005,
-      },
-      build_requires => {
           Test::Exception => 0.20,
           Test::More => 0.6, # (0.41 since perl 5.007003, 0.6 is new)
+      },
+      build_requires => {
       },
 	)->create_build_script;

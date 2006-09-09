@@ -1,6 +1,6 @@
 ---
 name: Test-MockRandom
-version: 0.97
+version: 0.98
 author:
   - David A Golden <dagolden@cpan.org>
 abstract: |-
@@ -8,12 +8,11 @@ abstract: |-
   generation
 license: perl
 requires:
-  perl: 5.005
-build_requires:
   Test::Exception: 0.2
   Test::More: 0.6
+  perl: 5.005
 provides:
   Test::MockRandom:
     file: lib/Test/MockRandom.pm
-    version: 0.97
-generated_by: Module::Build version 0.2701
+    version: 0.98
+generated_by: Module::Build version 0.2702

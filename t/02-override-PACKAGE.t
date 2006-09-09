@@ -1,12 +1,7 @@
-#!/usr/bin/perl
-use strict;
-use warnings;
-use blib;  
-
 # Testing Test::MockRandom  
+use strict;
 
 use Test::More tests =>  25 ;
-use Test::Exception;
 
 #--------------------------------------------------------------------------#
 # Test non-object functionality
@@ -23,16 +18,17 @@ is (oneish(), (2**32 - 1)/(2**32),
 is (rand(), 0, 
     'is uninitialized call to rand() equal to zero');
 
-dies_ok { srand(1) } 
-    'does srand die if argument is equal to one';
-dies_ok { srand(1.1) } 
-    'does srand die if argument is greater than one';
-dies_ok { srand(-0.1) } 
-    'does srand die if argument is less than zero';
-lives_ok { srand(0) } 
-    'does srand(0) live';
-lives_ok { srand(oneish) } 
-    'does srand(oneish) live';
+eval { srand(1) } ;
+ok( $@, 'does srand die if argument is equal to one' );
+eval { srand(1.1) } ;
+ok( $@, 'does srand die if argument is greater than one' );
+eval { srand(-0.1) } ;
+ok( $@, 'does srand die if argument is less than zero' );
+
+eval { srand(0) } ;
+is( $@, q{}, 'does srand(0) live' );
+eval { srand(oneish) } ;
+is( $@, q{}, 'does srand(oneish) live' );
 
 srand();
 is (rand(), 0, 

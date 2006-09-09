@@ -1,18 +1,13 @@
 package Test::MockRandom;
-use 5.005;
+$VERSION = "0.99";
+@EXPORT = qw( srand rand oneish export_rand_to export_srand_to );
+@ISA = qw( Exporter );
+
 use strict;
-use warnings;
-use vars qw ($VERSION);
-$VERSION = "0.98";
 
 # Required modules
 use Carp;
-
-# Exporter
 use Exporter;
-use vars qw(@EXPORT @ISA);
-@EXPORT = qw( srand rand oneish export_rand_to export_srand_to );
-@ISA = qw( Exporter );
 
 #--------------------------------------------------------------------------#
 # main pod documentation #####
@@ -316,8 +311,8 @@ sub rand {
         $mult = $_[ ref($_[0]) ? 1 : 0];
         $val =  shift @data || 0;
     }
-    # default to 1 for undef, 0, or strings
-    eval { use warnings FATAL => 'all'; $mult += 0; die unless $mult; };
+    # default to 1 for undef, 0, or strings that aren't numbers
+    eval { local $^W = 0; my $bogus = 1/$mult };
     $mult = 1 if $@;    
     return $val * $mult;
 }
@@ -465,7 +460,7 @@ sub _export_symbol {
     $alias ||= $sym;
     {
         no strict 'refs';
-        no warnings 'redefine';
+        local $^W = 0; # no redefine warnings
         *{"${pkg}::${alias}"} = \&{"Test::MockRandom::${sym}"};
     }
 }

@@ -20,6 +20,8 @@ t/10-export_fcn_to.t
 t/11-export_aliasing.t
 t/15-custom-export-spec.t
 t/16-custom-export-error-handling.t
+t/98-pod.t
+t/99-pod_coverage.t
 t/SomePackage.pm
 t/SomeRandPackage.pm
 Todo

@@ -1,12 +1,7 @@
-#!/usr/bin/perl
-use strict;
-use warnings;
-use blib;  
-
 # Test::MockRandom  
+use strict;
 
 use Test::More tests => 6 ;
-use Test::Exception;
 
 #--------------------------------------------------------------------------#
 # Test package overriding via import to global

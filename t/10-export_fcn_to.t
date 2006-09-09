@@ -1,12 +1,7 @@
-#!/usr/bin/perl
-use strict;
-use warnings;
-use blib;  
-
 # Test::MockRandom  
+use strict;
 
 use Test::More tests =>  5 ;
-use Test::Exception;
 
 #--------------------------------------------------------------------------#
 # Test package overriding
@@ -20,10 +15,10 @@ BEGIN {
     Test::MockRandom->export_oneish_to( 'OverrideTest' );
 }
 
-dies_ok { Test::MockRandom::export_rand_to( 'bogus' ) }
-    "Dies when export_*_to not called as class function";
-dies_ok { Test::MockRandom->export_rand_to() }
-    "Dies when export_*_to not given an argument";
+eval { Test::MockRandom::export_rand_to( 'bogus' ) };
+ok( $@, "Dies when export_*_to not called as class function" );
+eval { Test::MockRandom->export_rand_to() };
+ok( $@, "Dies when export_*_to not given an argument" );
     
 can_ok ('OverrideTest', qw ( rand srand oneish ));
 OverrideTest::srand(.5, OverrideTest::oneish);

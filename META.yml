@@ -1,18 +1,19 @@
 ---
 name: Test-MockRandom
-version: 0.98
+version: 0.99
 author:
   - David A Golden <dagolden@cpan.org>
 abstract: |-
   Replaces random number generation with non-random number
   generation
 license: perl
+resources:
+  license: http://dev.perl.org/licenses/
 requires:
-  Test::Exception: 0.2
-  Test::More: 0.6
-  perl: 5.005
+  Test::More: 0.45
+  perl: 5.004
 provides:
   Test::MockRandom:
     file: lib/Test/MockRandom.pm
-    version: 0.98
-generated_by: Module::Build version 0.2702
+    version: 0.99
+generated_by: Module::Build version 0.2703

@@ -1,12 +1,7 @@
-#!/usr/bin/perl
-use strict;
-use warnings;
-use blib;  
-
 # Testing Test::MockRandom  
+use strict;
 
 use Test::More tests =>  23 ;
-use Test::Exception;
 
 #--------------------------------------------------------------------------#
 # Test object oriented functionality
@@ -20,27 +15,28 @@ isa_ok ($obj->new, 'Test::MockRandom', "Object constructor");
 is ($obj->rand(), 0, 
     'is uninitialized call to $obj->rand() equal to zero');
 
-dies_ok { Test::MockRandom->new(1) } 
-    'does Test::MockRandom->new die if argument is equal to one';
-dies_ok { Test::MockRandom->new(1.1) } 
-    'does Test::MockRandom->new die if argument is greater than one';
-dies_ok { Test::MockRandom->new(-0.1) } 
-    'does Test::MockRandom->new die if argument is less than zero';
-lives_ok { Test::MockRandom->new(0) } 
-    'does Test::MockRandom->new(0) live';
-lives_ok { Test::MockRandom->new(Test::MockRandom::oneish) } 
-    'does Test::MockRandom->new(Test::MockRandom::oneish) live';
+eval { Test::MockRandom->new(1) }; 
+ok( $@, 'does Test::MockRandom->new die if argument is equal to one' );
+eval { Test::MockRandom->new(1.1) }; 
+ok( $@, 'does Test::MockRandom->new die if argument is greater than one');
+eval { Test::MockRandom->new(-0.1) }; 
+ok( $@, 'does Test::MockRandom->new die if argument is less than zero' );
+eval { Test::MockRandom->new(0) }; 
+is( $@, q{},  'does Test::MockRandom->new(0) live' );
+eval { Test::MockRandom->new(Test::MockRandom::oneish) } ;
+is( $@, q{},  'does Test::MockRandom->new(Test::MockRandom::oneish) live');
 
-dies_ok { $obj->srand(1) } 
-    'does $obj->srand die if argument is equal to one';
-dies_ok { $obj->srand(1.1) } 
-    'does $obj->srand die if argument is greater than one';
-dies_ok { $obj->srand(-0.1) } 
-    'does $obj->srand die if argument is less than zero';
-lives_ok { $obj->srand(0) } 
-    'does $obj->srand(0) live';
-lives_ok { $obj->srand($obj->oneish) } 
-    'does $obj->srand($obj->oneish) live';
+eval { $obj->srand(1) } ;
+ok( $@, 'does $obj->srand die if argument is equal to one' );
+eval { $obj->srand(1.1) }; 
+ok( $@, 'does $obj->srand die if argument is greater than one' );
+eval { $obj->srand(-0.1) } ; 
+ok( $@, 'does $obj->srand die if argument is less than zero' );
+
+eval { $obj->srand(0) }; 
+is( $@, q{}, 'does $obj->srand(0) live' );
+eval { $obj->srand($obj->oneish) } ;
+is( $@, q{}, 'does $obj->srand($obj->oneish) live' );
 
 $obj->srand();
 is ($obj->rand(), 0, 

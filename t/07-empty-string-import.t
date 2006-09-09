@@ -1,12 +1,7 @@
-#!/usr/bin/perl
-use strict;
-use warnings;
-use blib;  
-
 # Testing Test::MockRandom  
+use strict;
 
 use Test::More tests =>  7 ;
-use Test::Exception;
 
 use Test::MockRandom '';
 my @fcns = qw( 

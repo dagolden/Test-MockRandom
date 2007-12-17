@@ -2,16 +2,18 @@
 name: Test-MockRandom
 version: 0.9901
 author:
-  - 'David A Golden <dagolden@cpan.org>'
+  - 'David A. Golden <dagolden@cpan.org>'
 abstract: |-
   Replaces random number generation with non-random number
   generation
-license: perl
+license: apache
 resources:
-  license: http://dev.perl.org/licenses/
+  license: http://apache.org/licenses/LICENSE-2.0
+  repository: http://dagolden.googlecode.com/svn/
 requires:
-  Test::More: 0.45
   perl: 5.004
+build_requires:
+  Test::More: 0.45
 provides:
   Test::MockRandom:
     file: lib/Test/MockRandom.pm
@@ -20,3 +22,7 @@ generated_by: Module::Build version 0.280801
 meta-spec:
   url: http://module-build.sourceforge.net/META-spec-v1.2.html
   version: 1.2
+no_index:
+  directory:
+    - examples
+    - inc

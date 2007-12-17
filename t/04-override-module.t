@@ -8,7 +8,7 @@ use Test::More tests => 8 ;
 #--------------------------------------------------------------------------#
 
 use Test::MockRandom qw( SomePackage );
-use lib qw( . ./t );
+use lib qw( ./t );
 use SomePackage; 
 
 can_ok( 'SomePackage', 'rand' );

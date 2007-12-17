@@ -8,8 +8,8 @@ use Test::More tests => 6 ;
 #--------------------------------------------------------------------------#
 
 use Test::MockRandom qw( CORE::GLOBAL );
-use lib qw( . ./t );
-use SomeListPackage;
+use lib qw( ./t );
+use RandomList;
 
 for ( __PACKAGE__, "SomeListPackage" ) {
     is( UNIVERSAL::can( $_, 'rand'), undef,

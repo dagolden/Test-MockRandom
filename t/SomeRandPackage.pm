@@ -5,7 +5,7 @@ sub new {
     return bless( {}, ref($class) || $class );
 }
 
-sub rand {
+sub rand(;$) {
     my $rnd = CORE::rand;
     return $rnd;
 }

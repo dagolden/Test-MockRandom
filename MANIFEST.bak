@@ -1,9 +1,6 @@
 Build.PL
 Changes
-examples/mock-rand.t
-inc/Module/Build/WikiDoc.pm
 lib/Test/MockRandom.pm
-lib/Test/MockRandom.pod
 LICENSE
 Makefile.PL
 MANIFEST			This list of files
@@ -23,13 +20,7 @@ t/10-export_fcn_to.t
 t/11-export_aliasing.t
 t/15-custom-export-spec.t
 t/16-custom-export-error-handling.t
-t/17-list-context.t
-t/SomeListPackage.pm
 t/SomePackage.pm
 t/SomeRandPackage.pm
 Todo
-xt/critic.t
-xt/perlcriticrc
-xt/pod-coverage.t
-xt/pod.t
-xt/spelling.t
+lib/Test/MockRandom.pod

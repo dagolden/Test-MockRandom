@@ -1,6 +1,6 @@
 ---
 name: Test-MockRandom
-version: 0.9901
+version: 1.00
 author:
   - 'David A. Golden <dagolden@cpan.org>'
 abstract: |-
@@ -17,7 +17,7 @@ build_requires:
 provides:
   Test::MockRandom:
     file: lib/Test/MockRandom.pm
-    version: 0.9901
+    version: 1.00
 generated_by: Module::Build version 0.280801
 meta-spec:
   url: http://module-build.sourceforge.net/META-spec-v1.2.html

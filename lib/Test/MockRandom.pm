@@ -2,7 +2,7 @@ package Test::MockRandom;
 use strict;
 use Carp qw/croak/;
 use vars qw/$VERSION/;
-$VERSION = '0.9901';
+$VERSION = '1.00';
 
 #--------------------------------------------------------------------------#
 # Class data

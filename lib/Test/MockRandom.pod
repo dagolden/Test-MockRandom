@@ -9,7 +9,7 @@ generation
 
 =head1 VERSION
 
-This documentation describes version 0.9901.
+This documentation describes version 1.00.
 
 =head1 SYNOPSIS
 

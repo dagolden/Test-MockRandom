@@ -1,6 +1,6 @@
 Revision history for Perl module Test::MockRandom
 
-0.9901
+1.00 Mon Dec 17 11:39:59 EST 2007
 
     - added prototype to rand() function to match built-in
       (RT#30471; patch by INFINOID)

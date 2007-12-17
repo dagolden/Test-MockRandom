@@ -3,7 +3,7 @@ NAME
     number generation
 
 VERSION
-    This documentation describes version 0.9901.
+    This documentation describes version 1.00.
 
 SYNOPSIS
        # intercept rand in another package

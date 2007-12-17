@@ -24,7 +24,7 @@ t/11-export_aliasing.t
 t/15-custom-export-spec.t
 t/16-custom-export-error-handling.t
 t/17-list-context.t
-t/SomeListPackage.pm
+t/RandomList.pm
 t/SomePackage.pm
 t/SomeRandPackage.pm
 Todo

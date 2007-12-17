@@ -1,17 +1,19 @@
 # Test::MockRandom
 use strict;
 
-use Test::More tests => 6 ;
+use Test::More;
+
+plan tests => 8 ;
 
 #--------------------------------------------------------------------------#
-# Test package overriding via import to global
+# Test rand(@list) uses scalar context (in RandomList.pm)
 #--------------------------------------------------------------------------#
 
 use Test::MockRandom qw( CORE::GLOBAL );
 use lib qw( ./t );
 use RandomList;
 
-for ( __PACKAGE__, "SomeListPackage" ) {
+for ( __PACKAGE__, "RandomList" ) {
     is( UNIVERSAL::can( $_, 'rand'), undef,
         "rand should not have been imported into $_" );
 }
@@ -19,8 +21,15 @@ for (qw ( srand oneish )) {
     can_ok( __PACKAGE__, $_ );
 }
 
-my $obj = SomeListPackage->new;
-isa_ok ( $obj, 'SomeListPackage');
-srand(.5);
-# list_random(10) actually returns 5
-isnt($obj->list_random(10), 0, 'testing $obj->list_random(10) != 0');
+my $list = RandomList->new( 0, 1, 2, 3, 4, 5 );
+isa_ok ( $list, 'RandomList');
+
+srand(0);
+is($list->random(), 0, 'testing $list->random() -- return first element');
+
+srand(oneish());
+is($list->random(), 5, 'testing $list->random() -- return last element');
+
+srand(.49);
+is($list->random(), 2, 'testing $list->random() -- return third element');
+

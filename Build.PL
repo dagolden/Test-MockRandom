@@ -23,7 +23,7 @@ $class->new(
             }],
         },
         resources => {
-            repository => 'http://dagolden.googlecode.com/svn/'
+            repository => 'https://github.com/dagolden/test-mockrandom/'
         },
     },
 )->create_build_script;

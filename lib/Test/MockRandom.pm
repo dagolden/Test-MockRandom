@@ -1,8 +1,11 @@
-package Test::MockRandom;
 use strict;
+use warnings;
+
+package Test::MockRandom;
+# ABSTRACT: Replaces random number generation with non-random number generation
+# VERSION
+
 use Carp qw/croak/;
-use vars qw/$VERSION/;
-$VERSION = '1.00';
 
 #--------------------------------------------------------------------------#
 # Class data
@@ -179,19 +182,11 @@ sub _export_symbol {
     return;
 }
 
-1; #this line is important and will help the module return a true value
+1;
+
 __END__
 
 =begin wikidoc
-
-= NAME
-
-Test::MockRandom -  Replaces random number generation with non-random number
-generation
-
-= VERSION
-
-This documentation describes version %%VERSION%%.
 
 = SYNOPSIS
 

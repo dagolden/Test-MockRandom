@@ -63,7 +63,7 @@ sub rand(;$) { ## no critic
         $val =  shift @data || 0;
     }
     # default to 1 for undef, 0, or strings that aren't numbers
-    eval { local $^W = 0; my $bogus = 1/$mult };
+    eval { no warnings; local $^W = 0; my $bogus = 1/$mult };
     $mult = 1 if $@;    
     return $val * $mult;
 }
@@ -176,6 +176,7 @@ sub _export_symbol {
     $alias ||= $sym;
     {
         no strict 'refs'; ## no critic
+        no warnings 'redefine';
         local $^W = 0; # no redefine warnings
         *{"${pkg}::${alias}"} = \&{"Test::MockRandom::${sym}"};
     }

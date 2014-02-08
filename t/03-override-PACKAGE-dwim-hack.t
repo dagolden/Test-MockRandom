@@ -1,4 +1,4 @@
-# Test::MockRandom  
+# Test::MockRandom
 use strict;
 
 use Test::More tests => 3;

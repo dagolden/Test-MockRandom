@@ -18,8 +18,8 @@ my @data = (0);
 #--------------------------------------------------------------------------#
 
 sub new {
-    my ($class, @data) = @_;
-    my $self = bless ([], ref ($class) || $class);
+    my ( $class, @data ) = @_;
+    my $self = bless( [], ref($class) || $class );
     $self->srand(@data);
     return $self;
 }
@@ -29,22 +29,23 @@ sub new {
 #--------------------------------------------------------------------------#
 
 sub srand { ## no critic
-    if (ref ($_[0]) eq __PACKAGE__) {
+    if ( ref( $_[0] ) eq __PACKAGE__ ) {
         my $self = shift;
         @$self = $self->_test_srand(@_);
         return;
-    } else {
+    }
+    else {
         @data = Test::MockRandom->_test_srand(@_);
         return;
     }
 }
 
 sub _test_srand {
-    my ($self, @data) = @_;
-    my $error = "Seeds for " . __PACKAGE__ . 
-                " must be between 0 (inclusive) and 1 (exclusive)";
-    croak $error if grep { $_ < 0 or $_ >= 1 } @data;    
-    return @data ? @data : ( 0 );
+    my ( $self, @data ) = @_;
+    my $error =
+      "Seeds for " . __PACKAGE__ . " must be between 0 (inclusive) and 1 (exclusive)";
+    croak $error if grep { $_ < 0 or $_ >= 1 } @data;
+    return @data ? @data : (0);
 }
 
 #--------------------------------------------------------------------------#
@@ -52,19 +53,20 @@ sub _test_srand {
 #--------------------------------------------------------------------------#
 
 sub rand(;$) { ## no critic
-    my ($mult,$val);
-    if (ref ($_[0]) eq __PACKAGE__) { # we're a MockRandom object
+    my ( $mult, $val );
+    if ( ref( $_[0] ) eq __PACKAGE__ ) { # we're a MockRandom object
         $mult = $_[1];
-        $val = shift @{$_[0]} || 0;
-    } else {
+        $val = shift @{ $_[0] } || 0;
+    }
+    else {
         # we might be called as a method of some other class
         # so we need to ignore that and get the right multiplier
-        $mult = $_[ ref($_[0]) ? 1 : 0];
-        $val =  shift @data || 0;
+        $mult = $_[ ref( $_[0] ) ? 1 : 0 ];
+        $val = shift @data || 0;
     }
     # default to 1 for undef, 0, or strings that aren't numbers
-    eval { no warnings; local $^W = 0; my $bogus = 1/$mult };
-    $mult = 1 if $@;    
+    eval { no warnings; local $^W = 0; my $bogus = 1 / $mult };
+    $mult = 1 if $@;
     return $val * $mult;
 }
 
@@ -73,7 +75,7 @@ sub rand(;$) { ## no critic
 #--------------------------------------------------------------------------#
 
 sub oneish {
-    return (2**32-1)/(2**32);	
+    return ( 2**32 - 1 ) / ( 2**32 );
 }
 
 #--------------------------------------------------------------------------#
@@ -81,29 +83,28 @@ sub oneish {
 #--------------------------------------------------------------------------#
 
 sub import {
-    my ($class, @import_list) = @_;
+    my ( $class, @import_list ) = @_;
     my $caller = caller(0);
-    
+
     # Nothing exported by default or if empty string requested
     return unless @import_list;
     return if ( @import_list == 1 && $import_list[0] eq '' );
 
-    for my $tgt ( @import_list ) {
+    for my $tgt (@import_list) {
         # custom handling if it's a hashref
         if ( ref($tgt) eq "HASH" ) {
             for my $sym ( keys %$tgt ) {
-                croak "Unrecognized symbol '$sym'" 
-                    unless grep { $sym eq $_ } qw (rand srand oneish);
-                my @custom = ref($tgt->{$sym}) eq 'ARRAY' ? 
-                @{$tgt->{$sym}} : $tgt->{$sym};
-                _custom_export( $sym, $_ ) for ( @custom );
+                croak "Unrecognized symbol '$sym'"
+                  unless grep { $sym eq $_ } qw (rand srand oneish);
+                my @custom = ref( $tgt->{$sym} ) eq 'ARRAY' ? @{ $tgt->{$sym} } : $tgt->{$sym};
+                _custom_export( $sym, $_ ) for (@custom);
             }
         }
         # otherwise, export rand to target and srand/oneish to caller
         else {
-            my $pkg = ($tgt =~ /^__PACKAGE__$/) ? $caller : $tgt; # DWIM
-            _export_symbol("rand",$pkg);
-            _export_symbol($_,$caller) for qw( srand oneish );
+            my $pkg = ( $tgt =~ /^__PACKAGE__$/ ) ? $caller : $tgt; # DWIM
+            _export_symbol( "rand", $pkg );
+            _export_symbol( $_, $caller ) for qw( srand oneish );
         }
     }
     return;
@@ -114,8 +115,8 @@ sub import {
 #--------------------------------------------------------------------------#
 
 sub export_oneish_to {
-    my ($class, @args) = @_;
-    _export_fcn_to($class, "oneish", @args);
+    my ( $class, @args ) = @_;
+    _export_fcn_to( $class, "oneish", @args );
     return;
 }
 
@@ -124,8 +125,8 @@ sub export_oneish_to {
 #--------------------------------------------------------------------------#
 
 sub export_rand_to {
-    my ($class, @args) = @_;
-    _export_fcn_to($class, "rand", @args);
+    my ( $class, @args ) = @_;
+    _export_fcn_to( $class, "rand", @args );
     return;
 }
 
@@ -134,8 +135,8 @@ sub export_rand_to {
 #--------------------------------------------------------------------------#
 
 sub export_srand_to {
-    my ($class, @args) = @_;
-    _export_fcn_to($class, "srand", @args);
+    my ( $class, @args ) = @_;
+    _export_fcn_to( $class, "srand", @args );
     return;
 }
 
@@ -144,7 +145,7 @@ sub export_srand_to {
 #--------------------------------------------------------------------------#
 
 sub _custom_export {
-    my ($sym,$custom) = @_;
+    my ( $sym, $custom ) = @_;
     if ( ref($custom) eq 'HASH' ) {
         _export_symbol( $sym, %$custom ); # flatten { pkg => 'alias' }
     }
@@ -159,11 +160,11 @@ sub _custom_export {
 #--------------------------------------------------------------------------#
 
 sub _export_fcn_to {
-    my ($self, $fcn, $pkg, $alias) = @_;
+    my ( $self, $fcn, $pkg, $alias ) = @_;
     croak "Must call to export_${fcn}_to() as a class method"
-        unless ( $self eq __PACKAGE__ );
+      unless ( $self eq __PACKAGE__ );
     croak("export_${fcn}_to() requires a package name") unless $pkg;
-    _export_symbol($fcn,$pkg,$alias);
+    _export_symbol( $fcn, $pkg, $alias );
     return;
 }
 
@@ -172,12 +173,12 @@ sub _export_fcn_to {
 #--------------------------------------------------------------------------#
 
 sub _export_symbol {
-    my ($sym,$pkg,$alias) = @_;
+    my ( $sym, $pkg, $alias ) = @_;
     $alias ||= $sym;
     {
         no strict 'refs'; ## no critic
         no warnings 'redefine';
-        local $^W = 0; # no redefine warnings
+        local $^W = 0;    # no redefine warnings
         *{"${pkg}::${alias}"} = \&{"Test::MockRandom::${sym}"};
     }
     return;
